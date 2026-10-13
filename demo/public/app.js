@@ -152,7 +152,9 @@ function renderEvent(ev) {
   const system = ev.kind === "capability_change" || ev.kind === "stream_gap" || ev.kind === "attribution_update";
   if (system) li.classList.add("system");
   if (ev.kind === "stream_gap") li.classList.add("gap");
-  li.append(el("span", "seq", `#${ev.sequence}`), el("span", "time", ev.observedAt.slice(11, 19)));
+  // observedAt is UTC; show it in the viewer's own local time, not the server's.
+  const localTime = new Date(ev.observedAt).toLocaleTimeString("en-GB", { hour12: false });
+  li.append(el("span", "seq", `#${ev.sequence}`), el("span", "time", localTime));
 
   const cell = el("span");
   if (!system) {

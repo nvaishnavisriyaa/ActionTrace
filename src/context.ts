@@ -42,7 +42,8 @@ function describeTarget(e: TraceEvent): string {
 }
 
 function line(e: TraceEvent, byId: Map<string, TraceEvent>): string {
-  const time = e.observedAt.slice(11, 19);
+  // observedAt is stored in UTC (ISO 8601); rendered in whoever-reads-this's local time, not UTC.
+  const time = new Date(e.observedAt).toLocaleTimeString("en-GB", { hour12: false });
   const who = `${e.actor.toUpperCase()}(${e.certainty})`;
   const tgt = describeTarget(e);
   const d = (e.details ?? {}) as Record<string, unknown>;
