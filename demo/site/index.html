@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Acme Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { font-family: system-ui, sans-serif; color: #1c2430; }
+  body { margin: 0; background: #f4f6f9; }
+  header { background: #1c2430; color: #fff; padding: 10px 24px; display:flex; justify-content:space-between; align-items:center; }
+  #promo { background: #fff3cd; color: #5c4400; padding: 6px 12px; border-radius: 6px; font-size: 14px; }
+  main { max-width: 640px; margin: 20px auto; padding: 0 24px 60px; }
+  h1 { font-size: 22px; margin: 8px 0 14px; }
+  form { background: #fff; border: 1px solid #d8dee6; border-radius: 10px; padding: 18px; display: grid; gap: 12px; }
+  label { display: grid; gap: 4px; font-size: 14px; font-weight: 600; }
+  input[type=text], input[type=email], input[type=password], textarea { font: inherit; padding: 8px 10px; border: 1px solid #aab4c0; border-radius: 6px; }
+  fieldset { border: 1px solid #d8dee6; border-radius: 6px; display:flex; gap: 18px; }
+  fieldset label { display:flex; gap:6px; align-items:center; font-weight:500; }
+  .row { display:flex; gap:12px; align-items:center; }
+  button { font: inherit; font-weight: 600; padding: 9px 18px; border-radius: 6px; border: 0; background: #2557d6; color: #fff; cursor: pointer; }
+  button.secondary { background: #e3e8ef; color: #1c2430; }
+  #status { min-height: 20px; font-size: 14px; color: #0b6b3a; }
+  section.terms { margin-top: 24px; font-size: 14px; line-height: 1.6; color: #4a5565; }
+</style>
+</head>
+<body>
+<header><strong>Acme</strong><div id="promo" aria-label="Promotion">Offer ends in <span id="count">60</span>s</div></header>
+<main>
+  <h1>Order form</h1>
+  <form id="order" onsubmit="return false" autocomplete="off">
+    <label>Full name <input id="name" type="text" name="name" autocomplete="off"></label>
+    <label>Email <input id="email" type="email" name="email" autocomplete="off"></label>
+    <fieldset aria-label="Plan">
+      <label><input type="radio" name="plan" value="basic" id="plan-basic"> Basic plan</label>
+      <label><input type="radio" name="plan" value="pro" id="plan-pro"> Pro plan</label>
+    </fieldset>
+    <label>Password <input id="password" type="password" name="password" autocomplete="new-password"></label>
+    <label class="row"><input type="checkbox" id="news"> Send me product news</label>
+    <div class="row">
+      <button type="button" id="continue" onclick="document.getElementById('status').textContent='Saving…'; setTimeout(function(){ location.assign('step2.html'); }, 150);">Continue</button>
+      <button type="button" class="secondary" id="reset" onclick="document.getElementById('order').reset()">Reset</button>
+      <span id="status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+  <section class="terms">
+    <h2>Terms</h2>
+    <p>This is a demo page for ActionTrace. Scroll to see how scrolling by a person is attributed separately from the AI's clicks and typing.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+  </section>
+</main>
+<script>
+  // The page changes itself on a timer: this is page-initiated activity, not user or AI input.
+  var n = 60;
+  setInterval(function () { n = n > 1 ? n - 1 : 60; document.getElementById('count').textContent = n; }, 2000);
+</script>
+</body>
+</html>

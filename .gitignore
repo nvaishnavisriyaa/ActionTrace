@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+# Connection files written by `actiontrace serve --info-file` contain access tokens.
+actiontrace-session.json*
+session.json
+sidecar.*

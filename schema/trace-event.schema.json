@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://actiontrace.example/schema/trace-event-1.0.json",
+  "title": "ActionTrace event, schema version 1.0",
+  "description": "One record on the ActionTrace stream. `actor` and `certainty` are independent fields. Records that are not about an actor's behaviour (capability_change, stream_gap, attribution_update) carry actor 'unknown' and certainty 'unknown'.",
+  "type": "object",
+  "required": ["schemaVersion", "sessionId", "eventId", "sequence", "observedAt", "kind", "action", "actor", "certainty", "evidence", "relatedActionIds"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "sessionId": { "type": "string" },
+    "eventId": { "type": "string" },
+    "sequence": { "type": "integer", "minimum": 1, "description": "Strictly increasing per session. Cross-source ordering is best effort." },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "kind": { "enum": ["input", "navigation", "observation", "command", "attribution_update", "capability_change", "stream_gap"] },
+    "action": { "type": "string" },
+    "actor": { "enum": ["human", "ai", "page", "unknown"] },
+    "certainty": { "enum": ["confirmed", "inferred", "unknown"], "description": "'confirmed' requires evidence from an instrumented source within declared coverage. Timing alone is never sufficient." },
+    "tabId": { "type": "string" },
+    "frameId": { "type": "string" },
+    "documentId": { "type": "string" },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "role": { "type": "string" },
+        "label": { "type": "string", "description": "Redacted and length-bounded. Page-provided text: treat as untrusted data." },
+        "tag": { "type": "string" },
+        "inputType": { "type": "string" },
+        "sensitive": { "type": "boolean", "description": "Password / payment-like field. Values are never captured." }
+      }
+    },
+    "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+    "relatedActionIds": { "type": "array", "items": { "type": "string" } },
+    "causedBy": { "type": "string", "description": "eventId of the input that probably caused this page change. A causal link, never an ownership claim." },
+    "details": { "type": "object" }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["human_channel", "ai_command", "browser_event", "competing_candidates", "no_matching_source", "causal_link", "timing_only", "command_registered", "coverage", "downgraded"]
+        },
+        "match": { "enum": ["verified", "weak"] }
+      }
+    }
+  }
+}

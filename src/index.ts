@@ -1,0 +1,11 @@
+export * from "./protocol.js";
+export { ActionTrace, type AttachOptions, type RunAIActionMeta, type AICommandHandle } from "./actiontrace.js";
+export { TraceClient, AgentClient, ActionTraceHttpError, type ClientOptions, type StreamOptions, type AgentCommand } from "./client.js";
+export { AttributionEngine, compareTargets, type EngineOptions, type EngineHooks } from "./attribution.js";
+export { EventLog, type ReplayResult } from "./event-log.js";
+export { ContextFeed, summarizeEvents, type ContextUpdate, type TouchedTarget } from "./context.js";
+export { redactUrl, redactLabel, cleanText, sanitizeTarget } from "./redact.js";
+export { TraceServer, newToken, gapRecord, parseCommandRequest, type SessionRegistration, type TraceServerOptions } from "./server.js";
+export { buildObserverSource, describeElement, type ObserverBuild } from "./observer-script.js";
+export { PlaywrightAdapter, PlaywrightAgentActions } from "./adapters/playwright.js";
+export { ViewerAdapter, type ViewerFrame, type ViewerMessage, type ViewerTab } from "./adapters/viewer.js";

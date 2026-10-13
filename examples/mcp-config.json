@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "actiontrace": {
+      "command": "node",
+      "args": ["C:\\Drive\\ActionTrace\\dist\\src\\cli-mcp.js"],
+      "env": {
+        "ACTIONTRACE_INFO": "C:\\Drive\\ActionTrace\\actiontrace-session.json"
+      }
+    }
+  }
+}

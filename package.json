@@ -1,0 +1,58 @@
+{
+  "name": "actiontrace",
+  "version": "0.1.0",
+  "description": "Browser action attribution for AI tools: who did what, and how certain are we.",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {
+    "actiontrace": "dist/src/cli.js",
+    "actiontrace-mcp": "dist/src/cli-mcp.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "npm run build",
+    "test": "node --test \"dist/test/*.test.js\"",
+    "demo": "npm run build && node dist/demo/run.js",
+    "bench": "npm run build && node dist/bench/run.js",
+    "serve": "npm run build && node dist/src/cli.js serve"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "playwright-core": "^1.49.0",
+    "ws": "^8.18.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.12",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "files": [
+    "dist/src",
+    "schema",
+    "docs",
+    "examples",
+    "demo/public",
+    "demo/site",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/src/mcp.d.ts",
+      "default": "./dist/src/mcp.js"
+    },
+    "./schema": "./schema/trace-event.schema.json",
+    "./package.json": "./package.json"
+  }
+}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ActionTrace Demo</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <strong>ActionTrace</strong>
+      <span class="tag">Who did what in the shared browser, and how sure are we</span>
+    </div>
+    <div class="status" id="status" aria-live="polite">
+      <span class="pill" id="p-stream" data-state="off">Stream: connecting</span>
+      <span class="pill" id="p-human">Human input: –</span>
+      <span class="pill" id="p-ai">AI commands: –</span>
+      <span class="pill" id="p-observe">Observing: –</span>
+      <span class="pill" id="p-latency" title="Capture to controller receipt. Batched edits and scrolls are timed from their last event.">Latency: –</span>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <main class="layout">
+    <section class="panel viewer" aria-label="Shared browser">
+      <div class="panel-head">
+        <h2>Shared browser <small>you are the human channel (viewer-1)</small></h2>
+        <div class="actions">
+          <button id="btn-run" class="primary">Start AI agent</button>
+          <button id="btn-stop">Stop</button>
+          <button id="btn-observe" title="Start or stop observation">Pause observation</button>
+        </div>
+      </div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Browser tabs"></div>
+      <form class="addr" id="addr" autocomplete="off">
+        <input id="addr-input" type="text" aria-label="Address" placeholder="Address (http or https)">
+        <button type="submit">Go</button>
+      </form>
+      <div class="screen-wrap">
+        <img id="screen" tabindex="0" alt="Live view of the shared browser. Click, scroll and type here to act as the human.">
+        <div class="screen-empty" id="screen-empty">Waiting for the first frame…</div>
+      </div>
+      <p class="hint">Click, scroll and type on the page above. The AI agent and the page's own timer act on the same browser.</p>
+    </section>
+
+    <section class="side">
+      <section class="panel timeline" aria-label="Event timeline">
+        <div class="panel-head">
+          <h2>Timeline</h2>
+          <div class="filters" id="filters" role="group" aria-label="Filter by actor"></div>
+        </div>
+        <ol class="rows" id="rows" aria-live="off"></ol>
+        <div class="legend">
+          <span><b class="sw human"></b>human</span>
+          <span><b class="sw ai"></b>ai</span>
+          <span><b class="sw page"></b>page</span>
+          <span><b class="sw unknown"></b>unknown</span>
+          <span class="sep">certainty:</span>
+          <span>✓ confirmed</span><span>≈ inferred (dashed)</span><span>? unknown</span>
+        </div>
+      </section>
+
+      <section class="panel agent" aria-label="AI controller log">
+        <div class="panel-head"><h2>AI controller <small>what the model would be told</small></h2></div>
+        <ol class="agent-log" id="agent-log"></ol>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
