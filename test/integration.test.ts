@@ -272,6 +272,33 @@ describe("MCP bridge", () => {
     }
   });
 
+  it("actiontrace_events defaults to since-you-last-looked, not the full history, so a model that forgets actiontrace_changes still isn't blind", async () => {
+    // Events from the previous test (and this file's earlier ones) are already in the log by now.
+    const warmup = await connect(consumerToken);
+    const before = JSON.parse(textOf(await warmup.callTool({ name: "actiontrace_events", arguments: { since: 0, limit: 1 } })));
+    assert.ok(before.lastSequence > 0, "there is pre-existing history for a fresh connection's baseline to start after");
+    await warmup.close();
+
+    const c = await connect(consumerToken); // a fresh bridge: its baseline is "now", i.e. that pre-existing lastSequence
+    try {
+      const atConnect = JSON.parse(textOf(await c.callTool({ name: "actiontrace_events", arguments: {} })));
+      assert.equal(atConnect.events.length, 0, "nothing has happened yet since this bridge connected");
+
+      trace.recordIntent({ intentId: "h2", channelId: "viewer-1", action: "click", at: Date.now(), tabId: "tab-1", point: { x: 20, y: 20 }, target: { role: "checkbox", label: "Send me product news" } });
+      click("Send me product news", "checkbox");
+      await until(() => !!last((e) => e.kind === "input" && e.target?.label === "Send me product news"));
+
+      const sinceLookedDefault = JSON.parse(textOf(await c.callTool({ name: "actiontrace_events", arguments: {} })));
+      assert.equal(sinceLookedDefault.events.length, 1, "only the new event, not the pre-existing history");
+      assert.equal(sinceLookedDefault.events[0].target.label, "Send me product news");
+
+      const fullHistory = JSON.parse(textOf(await c.callTool({ name: "actiontrace_events", arguments: { since: 0, limit: 200 } })));
+      assert.ok(fullHistory.events.length > sinceLookedDefault.events.length, "since: 0 still reaches the full retained history");
+    } finally {
+      await c.close();
+    }
+  });
+
   it("peek does not advance the cursor", async () => {
     const c = await connect(consumerToken);
     try {

@@ -93,16 +93,19 @@ export function createMcpServer(client: TraceClient, opts: { name?: string; vers
       title: "Recent shared-browser events",
       description:
         "Raw attributed events (actor: human | ai | page | unknown; certainty: confirmed | inferred | unknown). " +
-        "Use actiontrace_changes for normal work; use this to inspect exactly what happened. " + DATA_NOTE,
+        "Use actiontrace_changes for normal work; use this to inspect exactly what happened. " +
+        "Without `since`, defaults to events since you last looked (the same cursor actiontrace_changes uses) so you " +
+        "stay aware of what happened even if you forget to call actiontrace_changes first; pass since: 0 for full history. " +
+        DATA_NOTE,
       inputSchema: {
-        since: z.number().int().min(0).optional().describe("Return events after this sequence number. Default 0 (oldest retained)."),
+        since: z.number().int().min(0).optional().describe("Return events after this sequence number. Default: since you last looked. Pass 0 for the oldest retained."),
         limit: z.number().int().min(1).max(200).optional().describe("Default 50."),
       },
       annotations: { readOnlyHint: true, openWorldHint: false },
     },
     async ({ since, limit }) => {
       try {
-        const r = await client.events(since ?? 0, limit ?? 50);
+        const r = await client.events(since ?? (await baseline()), limit ?? 50);
         return text(JSON.stringify({ events: r.events.map(compactEvent), gap: r.gap, lastSequence: r.lastSequence }));
       } catch (e) {
         return fail(e);

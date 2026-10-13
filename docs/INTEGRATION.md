@@ -124,7 +124,7 @@ the `ACTIONTRACE_*_TOKEN` variables, or point `ACTIONTRACE_INFO` at a file you r
 | Tool | Does |
 |---|---|
 | `actiontrace_changes` | What the user and the page changed since the model's previous call. `peek` doesn't advance the cursor |
-| `actiontrace_events`, `actiontrace_capabilities` | Raw attributed events; coverage and stream health |
+| `actiontrace_events`, `actiontrace_capabilities` | Raw attributed events (defaults to since-you-last-looked, same cursor as `actiontrace_changes`; pass `since: 0` for full history); coverage and stream health |
 | `browser_snapshot` | Lists interactive elements (role + label) |
 | `browser_navigate`, `browser_click`, `browser_fill`, `browser_press` | Act in the shared browser, **recorded as AI actions** |
 
