@@ -18,9 +18,7 @@ flowchart LR
 
 ## Demo
 
-<video src="https://github.com/nvaishnavisriyaa/ActionTrace/raw/main/docs/media/demo.mp4" controls width="720">
-  Can't play the video inline? <a href="https://github.com/nvaishnavisriyaa/ActionTrace/raw/main/docs/media/demo.mp4">Download it directly</a>.
-</video>
+📹 [Watch the demo video](docs/media/demo.mp4) (shared browser, human + AI acting together, ~45s)
 
 ## Try it
 
