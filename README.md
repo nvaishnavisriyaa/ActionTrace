@@ -18,7 +18,7 @@ flowchart LR
 
 ## Demo
 
-📹 [Watch the demo video](docs/media/demo.mp4) (shared browser, human + AI acting together, ~45s)
+📹 [Watch the demo video](https://youtu.be/WKw3Eqf8n_E) (shared browser, human + AI acting together, ~45s)
 
 ## Try it
 
