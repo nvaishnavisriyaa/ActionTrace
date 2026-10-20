@@ -16,6 +16,12 @@ flowchart LR
     F --> G[Context update for the model]
 ```
 
+## Demo
+
+<video src="https://github.com/nvaishnavisriyaa/ActionTrace/raw/main/docs/media/demo.mp4" controls width="720">
+  Can't play the video inline? <a href="https://github.com/nvaishnavisriyaa/ActionTrace/raw/main/docs/media/demo.mp4">Download it directly</a>.
+</video>
+
 ## Try it
 
 Requires Node 22+ and an installed Chrome or Edge (no browser download).
